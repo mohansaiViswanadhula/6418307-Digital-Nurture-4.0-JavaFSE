@@ -1,0 +1,13 @@
+SET SERVEROUTPUT ON;
+
+BEGIN
+    FOR loan IN (
+        SELECT c.Name, l.LoanID, l.EndDate
+        FROM Customers c
+        JOIN Loans l ON c.CustomerID = l.CustomerID
+        WHERE l.EndDate <= SYSDATE + 30
+    ) LOOP
+        DBMS_OUTPUT.PUT_LINE('Reminder: Loan ' || loan.LoanID || ' for ' || loan.Name || ' is due on ' || TO_CHAR(loan.EndDate, 'DD-MON-YYYY'));
+    END LOOP;
+END;
+/
